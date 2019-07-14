@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mainsite.apps.MainsiteConfig'
+    'moviegeeks.apps.MainsiteConfig',
+    'analytics.apps.AnalysitcsConfig',
+    'collector.app.CollectorConfig',
 ]
 
 MIDDLEWARE = [

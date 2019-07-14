@@ -1,15 +1,14 @@
 import uuid, random
 import json
 
-
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Movie, Genre
 
+
 @ensure_csrf_cookie
 def index(request):
-
     genre_selected = request.GET.get('genre')
 
     api_key = get_api_key()
@@ -34,11 +33,10 @@ def index(request):
                     'pages': range(page_start, page_end),
                     }
 
-    return render(request, 'mainsite/index.html', context_dict)
+    return render(request, 'moviegeeks/index.html', context_dict)
 
 
 def handle_pagination(movies, page_number):
-
     paginate_by = 18
 
     paginator = Paginator(movies, paginate_by)
@@ -59,7 +57,6 @@ def handle_pagination(movies, page_number):
 
 @ensure_csrf_cookie
 def genre(request, genre_id):
-
     if genre_id:
         selected = Genre.objects.filter(name=genre_id)[0]
         movies = selected.movies.all().order_by('-year')
@@ -81,7 +78,7 @@ def genre(request, genre_id):
                     'pages': range(page_start, page_end),
                     }
 
-    return render(request, 'mainsite/index.html', context_dict)
+    return render(request, 'moviegeeks/index.html', context_dict)
 
 
 def detail(request, movie_id):
@@ -101,10 +98,10 @@ def detail(request, movie_id):
                     'session_id': session_id(request),
                     'user_id': user_id(request)}
 
-    return render(request, 'mainsite/detail.html', context_dict)
+    return render(request, 'moviegeeks/detail.html', context_dict)
+
 
 def search_for_movie(request):
-
     search_term = request.GET.get('q', None)
 
     if search_term is None:
@@ -120,7 +117,8 @@ def search_for_movie(request):
                     }
     print(list(mov))
 
-    return render(request, 'mainsite/search_result.html', context_dict)
+    return render(request, 'moviegeeks/search_result.html', context_dict)
+
 
 def dictfechall(cursor):
     """returns all rows from a cursor as a dict"""
@@ -130,19 +128,23 @@ def dictfechall(cursor):
         for row in cursor.fetchall()
     ]
 
+
 def get_api_key():
     # Load credentials
     cred = json.loads(open('.prs').read())
     return cred['themoviedb_apikey']
 
+
 def get_genres():
     return Genre.objects.all().values('name').distinct()
+
 
 def session_id(request):
     if not "session_id" in request.session:
         request.session["session_id"] = str(uuid.uuid1())
 
     return request.session["session_id"]
+
 
 def user_id(request):
     user_id = request.GET.get('user_id')
@@ -155,10 +157,3 @@ def user_id(request):
 
     print("ensured_id: ", request.session['user_id'])
     return request.session['user_id']
-
-
-
-
-
-
-

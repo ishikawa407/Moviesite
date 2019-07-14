@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from mainsite import views
+from moviegeeks import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),

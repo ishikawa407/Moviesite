@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('movie_id', models.CharField(max_length=16, primary_key=True, serialize=False, unique=True)),
                 ('title', models.CharField(max_length=128)),
                 ('year', models.IntegerField(null=True)),
-                ('genres', models.ManyToManyField(db_table='movie_genre', related_name='movies', to='mainsite.Genre')),
+                ('genres', models.ManyToManyField(db_table='movie_genre', related_name='movies', to='moviegeeks.Genre')),
             ],
         ),
     ]
